@@ -310,16 +310,52 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { passive: true });
     }
 
-    // Logout
-    logoutBtn.addEventListener('click', async () => {
-        if (confirm('Czy na pewno chcesz si\u0119 wylogowa\u0107?')) {
+    // Logout overlay
+    var logoutOverlay = document.getElementById('logout-overlay');
+    var confirmLogoutBtn = document.getElementById('confirm-logout-btn');
+    var cancelLogoutBtn = document.getElementById('cancel-logout-btn');
+
+    logoutBtn.addEventListener('click', () => {
+        // Populate stats
+        var logoutHoursEl = document.getElementById('logout-hours');
+        var logoutOrdersEl = document.getElementById('logout-orders');
+        if (logoutHoursEl && worker) {
+            var loginTime = sessionStorage.getItem('loginTime');
+            if (loginTime) {
+                var diff = Date.now() - parseInt(loginTime);
+                var h = Math.floor(diff / 3600000);
+                var m = Math.floor((diff % 3600000) / 60000);
+                logoutHoursEl.textContent = h + 'h ' + m + 'm';
+            }
+        }
+        if (logoutOrdersEl && allOrders) {
+            logoutOrdersEl.textContent = allOrders.length;
+        }
+        logoutOverlay.classList.add('active');
+    });
+
+    if (cancelLogoutBtn) {
+        cancelLogoutBtn.addEventListener('click', () => {
+            logoutOverlay.classList.remove('active');
+        });
+    }
+
+    if (confirmLogoutBtn) {
+        confirmLogoutBtn.addEventListener('click', async () => {
             if (typeof autoRefresh !== 'undefined') autoRefresh.stop();
             await logoutWorkerAPI();
             session.clearSession();
             if (typeof toast !== 'undefined') toast.info('Wylogowano');
             setTimeout(() => { window.location.href = 'index.html'; }, 500);
-        }
-    });
+        });
+    }
+
+    // Close overlay on backdrop click
+    if (logoutOverlay) {
+        logoutOverlay.addEventListener('click', (e) => {
+            if (e.target === logoutOverlay) logoutOverlay.classList.remove('active');
+        });
+    }
 
     // Initialize on load
     init();

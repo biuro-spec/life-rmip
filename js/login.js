@@ -134,6 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 session.setCurrentWorker(workerData);
                 storage.set('workStartTime', workerData.startTime);
+                sessionStorage.setItem('loginTime', Date.now().toString());
 
                 // Redirect to orders list
                 setTimeout(() => {

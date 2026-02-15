@@ -71,6 +71,43 @@
                 <span>Odśwież</span>
             </button>
         </div>
+
+        <!-- Logout Summary Overlay -->
+        <div class="logout-overlay" id="logout-overlay">
+            <div class="logout-card">
+                <div class="logout-icon">
+                    <span class="material-icons-round">timer_off</span>
+                </div>
+                <h2 class="logout-title">Zakończyć pracę?</h2>
+                <p class="logout-desc">Oto podsumowanie Twojej dzisiejszej aktywności w systemie Life RMiP.</p>
+
+                <div class="logout-stats">
+                    <div class="logout-stat">
+                        <span class="material-icons-round logout-stat-icon">schedule</span>
+                        <span class="logout-stat-label">Czas pracy</span>
+                        <span class="logout-stat-value" id="logout-hours">-</span>
+                    </div>
+                    <div class="logout-stat">
+                        <span class="material-icons-round logout-stat-icon">assignment_turned_in</span>
+                        <span class="logout-stat-label">Zlecenia</span>
+                        <span class="logout-stat-value" id="logout-orders">-</span>
+                    </div>
+                </div>
+
+                <div class="logout-notice">
+                    <span class="material-icons-round">info</span>
+                    <p>Upewnij się, że wszystkie aktywne zlecenia zostały poprawnie zamknięte przed wylogowaniem.</p>
+                </div>
+
+                <div class="logout-actions">
+                    <button class="btn btn-primary btn-full" id="confirm-logout-btn">
+                        <span class="material-icons-round">logout</span>
+                        <span>Zakończ pracę</span>
+                    </button>
+                    <button class="logout-cancel-btn" id="cancel-logout-btn">Wróć do aplikacji</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="js/utils.js"></script>
