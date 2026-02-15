@@ -4,7 +4,7 @@
  * Cache-first dla statycznych zasobów, network-first dla API
  */
 
-const CACHE_NAME = 'life-rmip-v2';
+const CACHE_NAME = 'life-rmip-v3';
 
 const STATIC_ASSETS = [
   './',
