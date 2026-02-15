@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function formatTimeShort(date) {
-        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        return date.toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' });
     }
 
     // --- EVENT LISTENERS ---

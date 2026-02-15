@@ -1,29 +1,29 @@
 :root {
-  /* Kolory główne - Czerwony Life */
-  --life-red-primary: #B71C1C;
-  --life-red-dark: #8B0000;
-  --life-red-light: #E53935;
-  
-  /* Neutralne */
+  /* Kolory główne - Czerwony Life (Stitch) */
+  --life-red-primary: #b51c1c;
+  --life-red-dark: #901616;
+  --life-red-light: #d42a2a;
+
+  /* Neutralne (Stitch warm palette) */
   --white: #FFFFFF;
-  --gray-50: #FAFAFA;
-  --gray-100: #F5F5F5;
-  --gray-300: #E0E0E0;
-  --gray-500: #9E9E9E;
-  --gray-700: #616161;
-  --gray-900: #212121;
-  
+  --gray-50: #f8f6f6;
+  --gray-100: #f4f0f0;
+  --gray-300: #e5dcdc;
+  --gray-500: #876464;
+  --gray-700: #5c4a4a;
+  --gray-900: #171111;
+
   /* Statusy */
-  --status-available: #4CAF50;
-  --status-in-transit: #FF5722;
-  --status-scheduled: #9E9E9E;
-  --status-completed: #388E3C;
-  
+  --status-available: #22c55e;
+  --status-in-transit: #f59e0b;
+  --status-scheduled: #876464;
+  --status-completed: #16a34a;
+
   /* Akcje */
-  --success: #4CAF50;
-  --warning: #FF9800;
-  --error: #F44336;
-  --info: #2196F3;
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: #3b82f6;
   
   /* Spacing (system 8px) */
   --space-xs: 8px;

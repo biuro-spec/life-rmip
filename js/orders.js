@@ -96,15 +96,14 @@ document.addEventListener('DOMContentLoaded', () => {
             '<div class="order-header">' +
                 '<div class="order-time">' + order.time + '</div>' +
                 '<div class="order-status">' +
-                    '<span class="status-dot ' + getStatusClass(order.status) + '"></span>' +
                     getStatusLabel(order.status) +
                 '</div>' +
             '</div>' +
             '<div class="order-patient">' + order.patientName + '</div>' +
             '<div class="order-route">' +
-                '<span>' + shortenAddress(order.from) + '</span>' +
+                '<span class="route-from"><span class="material-icons-round">location_on</span> ' + shortenAddress(order.from) + '</span>' +
                 '<span class="route-arrow">\u2192</span>' +
-                '<span>' + shortenAddress(order.to) + '</span>' +
+                '<span class="route-to"><span class="material-icons-round">local_hospital</span> ' + shortenAddress(order.to) + '</span>' +
             '</div>';
 
         return card;

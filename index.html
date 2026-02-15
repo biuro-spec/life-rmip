@@ -50,8 +50,14 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="input-label" for="pin-input">PIN</label>
-                    <input type="password" id="pin-input" class="select-field" placeholder="Wpisz PIN" maxlength="4" inputmode="numeric" pattern="[0-9]*">
+                    <label class="input-label">PIN</label>
+                    <div class="pin-boxes" id="pin-boxes">
+                        <input type="password" class="pin-box" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+                        <input type="password" class="pin-box" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+                        <input type="password" class="pin-box" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+                        <input type="password" class="pin-box" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+                    </div>
+                    <input type="hidden" id="pin-input">
                 </div>
 
                 <div class="form-group">

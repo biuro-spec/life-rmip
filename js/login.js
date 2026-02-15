@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Elements
     const workerSelect = document.getElementById('worker-select');
     const pinInput = document.getElementById('pin-input');
+    const pinBoxes = document.querySelectorAll('.pin-box');
     const vehicleSelect = document.getElementById('vehicle-select');
     const startWorkBtn = document.getElementById('start-work-btn');
     const timestampEl = document.getElementById('current-time');
@@ -24,24 +25,78 @@ document.addEventListener('DOMContentLoaded', () => {
     updateTimestamp();
     setInterval(updateTimestamp, 1000);
 
+    // PIN boxes logic
+    function collectPin() {
+        let pin = '';
+        pinBoxes.forEach(box => { pin += box.value; });
+        pinInput.value = pin;
+        checkFormValidity();
+    }
+
+    pinBoxes.forEach((box, index) => {
+        box.addEventListener('input', (e) => {
+            const val = e.target.value.replace(/[^0-9]/g, '');
+            e.target.value = val;
+
+            if (val) {
+                e.target.classList.add('filled');
+                // Auto-advance to next box
+                if (index < pinBoxes.length - 1) {
+                    pinBoxes[index + 1].focus();
+                }
+            } else {
+                e.target.classList.remove('filled');
+            }
+
+            loginError.style.display = 'none';
+            collectPin();
+        });
+
+        box.addEventListener('keydown', (e) => {
+            // Backspace: clear current and go back
+            if (e.key === 'Backspace' && !box.value && index > 0) {
+                pinBoxes[index - 1].value = '';
+                pinBoxes[index - 1].classList.remove('filled');
+                pinBoxes[index - 1].focus();
+                collectPin();
+            }
+        });
+
+        // Select all text on focus for easy overwrite
+        box.addEventListener('focus', () => {
+            box.select();
+        });
+
+        // Handle paste (e.g. paste full 4-digit PIN)
+        box.addEventListener('paste', (e) => {
+            e.preventDefault();
+            const pasteData = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g, '');
+            for (let i = 0; i < Math.min(pasteData.length, pinBoxes.length); i++) {
+                pinBoxes[i].value = pasteData[i];
+                pinBoxes[i].classList.add('filled');
+            }
+            if (pasteData.length >= pinBoxes.length) {
+                pinBoxes[pinBoxes.length - 1].focus();
+            } else {
+                pinBoxes[Math.min(pasteData.length, pinBoxes.length - 1)].focus();
+            }
+            collectPin();
+        });
+    });
+
     // Enable/disable start button based on selection
     function checkFormValidity() {
         const isValid = workerSelect.value && pinInput.value.length >= 4 && vehicleSelect.value;
         startWorkBtn.disabled = !isValid;
     }
 
-    workerSelect.addEventListener('change', checkFormValidity);
-    pinInput.addEventListener('input', checkFormValidity);
-    vehicleSelect.addEventListener('change', checkFormValidity);
-
-    // Hide error on input change
-    [workerSelect, pinInput, vehicleSelect].forEach(el => {
-        el.addEventListener('input', () => {
-            loginError.style.display = 'none';
-        });
-        el.addEventListener('change', () => {
-            loginError.style.display = 'none';
-        });
+    workerSelect.addEventListener('change', () => {
+        loginError.style.display = 'none';
+        checkFormValidity();
+    });
+    vehicleSelect.addEventListener('change', () => {
+        loginError.style.display = 'none';
+        checkFormValidity();
     });
 
     // Handle start work
@@ -85,9 +140,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     window.location.href = 'orders.html';
                 }, 300);
             } else {
-                // Show error
+                // Show error with shake animation
                 loginError.textContent = result.message || 'Nieprawidłowy PIN';
                 loginError.style.display = 'block';
+                pinBoxes.forEach(box => {
+                    box.classList.add('error');
+                    setTimeout(() => box.classList.remove('error'), 400);
+                });
                 startWorkBtn.textContent = 'Rozpocznij pracę';
                 startWorkBtn.disabled = false;
                 checkFormValidity();

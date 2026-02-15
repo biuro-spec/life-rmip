@@ -1,17 +1,17 @@
-/* Orders List Screen Styles */
+/* Orders List Screen Styles - Stitch Design */
 .orders-screen {
     min-height: 100vh;
     background: var(--gray-100);
 }
 
 .top-bar {
-    background: var(--life-red-primary);
-    color: var(--white);
+    background: var(--white);
+    color: var(--gray-900);
     padding: var(--space-sm) var(--space-md);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: var(--shadow-md);
+    border-bottom: 1px solid rgba(181, 28, 28, 0.05);
 }
 
 .top-bar-left {
@@ -24,7 +24,7 @@
     width: 40px;
     height: 40px;
     border-radius: var(--radius-full);
-    background: var(--white);
+    background: rgba(181, 28, 28, 0.1);
     padding: 4px;
 }
 
@@ -36,17 +36,19 @@
 .worker-name {
     font-weight: var(--weight-bold);
     font-size: var(--text-base);
+    color: var(--gray-900);
 }
 
 .vehicle-name {
     font-size: var(--text-small);
-    opacity: 0.9;
+    color: var(--life-red-primary);
+    font-weight: var(--weight-medium);
 }
 
 .logout-btn {
     background: transparent;
-    border: 2px solid var(--white);
-    color: var(--white);
+    border: 1px solid var(--gray-300);
+    color: var(--gray-700);
     padding: 8px 16px;
     border-radius: var(--radius-sm);
     font-size: var(--text-small);
@@ -55,32 +57,37 @@
 }
 
 .logout-btn:hover {
-    background: var(--white);
+    background: var(--gray-100);
+    border-color: var(--life-red-primary);
     color: var(--life-red-primary);
 }
 
 /* Date selector */
 .date-selector {
-    background: var(--white);
-    padding: var(--space-md);
+    background: var(--gray-100);
+    padding: 4px;
+    margin: var(--space-sm) var(--space-md);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid var(--gray-300);
+    border-radius: 12px;
 }
 
 .date-arrow {
-    background: none;
+    background: var(--white);
     border: none;
-    font-size: 24px;
+    font-size: 20px;
     color: var(--gray-700);
     cursor: pointer;
-    padding: 8px;
-    transition: color 0.3s;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.2s;
 }
 
 .date-arrow:hover {
     color: var(--life-red-primary);
+    background: var(--white);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .current-date {
@@ -91,35 +98,40 @@
 
 /* Orders list */
 .orders-list {
-    padding: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
 }
 
 .order-card {
     background: var(--white);
-    border-radius: var(--radius-md);
+    border-radius: 12px;
     padding: var(--space-md);
     margin-bottom: var(--space-sm);
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     transition: all 0.3s;
     cursor: pointer;
     border-left: 4px solid transparent;
 }
 
 .order-card:hover {
-    box-shadow: var(--shadow-md);
-    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+}
+
+.order-card.status-in_transit,
+.order-card.status-with_patient {
+    border-left-color: #f59e0b;
 }
 
 .order-card.status-available {
-    border-left-color: var(--status-available);
-}
-
-.order-card.status-in-transit {
-    border-left-color: var(--status-in-transit);
+    border-left-color: var(--life-red-primary);
 }
 
 .order-card.status-scheduled {
-    border-left-color: var(--status-scheduled);
+    border-left-color: var(--gray-300);
+}
+
+.order-card.status-completed {
+    border-left-color: #22c55e;
 }
 
 .order-header {
@@ -132,14 +144,40 @@
 .order-time {
     font-size: var(--text-h3);
     font-weight: var(--weight-bold);
-    color: var(--life-red-primary);
+    color: var(--gray-900);
 }
 
 .order-status {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    font-size: var(--text-small);
-    color: var(--gray-700);
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 4px 10px;
+    border-radius: 9999px;
+}
+
+.order-card.status-in_transit .order-status,
+.order-card.status-with_patient .order-status {
+    background: #fff7ed;
+    color: #ea580c;
+}
+
+.order-card.status-available .order-status {
+    background: rgba(181, 28, 28, 0.05);
+    color: var(--life-red-primary);
+}
+
+.order-card.status-scheduled .order-status {
+    background: var(--gray-100);
+    color: var(--gray-500);
+}
+
+.order-card.status-completed .order-status {
+    background: #f0fdf4;
+    color: #16a34a;
 }
 
 .order-patient {
@@ -151,14 +189,26 @@
 
 .order-route {
     font-size: var(--text-small);
-    color: var(--gray-600);
+    color: var(--gray-500);
     display: flex;
     align-items: center;
     gap: var(--space-xs);
 }
 
-.route-arrow {
+.order-route .material-icons-round {
+    font-size: 16px;
+}
+
+.order-route .route-from .material-icons-round {
+    color: #22c55e;
+}
+
+.order-route .route-to .material-icons-round {
     color: var(--life-red-primary);
+}
+
+.route-arrow {
+    color: var(--gray-300);
     font-weight: var(--weight-bold);
 }
 
@@ -189,14 +239,14 @@
     position: fixed;
     bottom: var(--space-md);
     right: var(--space-md);
-    background: var(--success);
+    background: var(--life-red-primary);
     color: var(--white);
     border: none;
     border-radius: var(--radius-full);
-    padding: 16px 24px;
-    font-size: var(--text-base);
+    padding: 14px 24px;
+    font-size: var(--text-small);
     font-weight: var(--weight-medium);
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 4px 12px rgba(181, 28, 28, 0.3);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -205,10 +255,10 @@
 }
 
 .refresh-btn:hover {
-    background: #388E3C;
+    background: var(--life-red-dark);
     transform: scale(1.05);
 }
 
 .refresh-icon {
-    font-size: 20px;
+    font-size: 18px;
 }
