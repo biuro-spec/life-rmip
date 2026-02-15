@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#B71C1C"/>
+  <g transform="translate(256,256)">
+    <!-- Cross / Plus (medical) -->
+    <rect x="-40" y="-120" width="80" height="240" rx="12" fill="#fff"/>
+    <rect x="-120" y="-40" width="240" height="80" rx="12" fill="#fff"/>
+    <!-- Heart beat line -->
+    <polyline points="-140,60 -80,60 -50,20 -20,100 10,40 40,60 80,60 140,60"
+      fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+  </g>
+  <!-- "L" letter bottom-right -->
+  <text x="380" y="440" font-family="Arial,sans-serif" font-weight="700" font-size="120" fill="#fff" opacity="0.3">L</text>
+</svg>

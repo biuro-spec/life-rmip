@@ -1,0 +1,34 @@
+{
+  "name": "Life RMiP - Panel Pracownika",
+  "short_name": "Life RMiP",
+  "description": "Aplikacja dla pracowników transportu medycznego - Life Ratownictwo Medyczne i Przewozy",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#B71C1C",
+  "theme_color": "#B71C1C",
+  "lang": "pl-PL",
+  "scope": "./",
+  "icons": [
+    {
+      "src": "assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/logo.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["medical", "business"],
+  "shortcuts": [
+    {
+      "name": "Moje Zlecenia",
+      "url": "./orders.html",
+      "icons": [{ "src": "assets/logo.png", "sizes": "any" }]
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Life RMiP - Panel Pracownika</title>
+    <meta name="theme-color" content="#B71C1C">
+    <meta name="description" content="Life RMiP - Panel Pracownika transportu medycznego">
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="assets/logo.png">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/login.css">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/logo.png">
+</head>
+
+<body>
+    <div class="container">
+        <div class="login-screen">
+            <!-- Header with logo -->
+            <div class="login-header">
+                <img src="assets/logo.png" alt="Life Logo" class="login-logo">
+                <p class="company-name">Life-Ratownictwo Medyczne i Pielęgniarstwo</p>
+                <h1 class="panel-title">Panel Pracownika</h1>
+            </div>
+
+            <!-- Login form -->
+            <div class="login-form">
+                <div class="form-group">
+                    <label class="input-label" for="worker-select">Wybierz pracownika</label>
+                    <select id="worker-select" class="select-field">
+                        <option value="">-- Wybierz --</option>
+                        <option value="krzysztof">Krzysztof</option>
+                        <option value="aleks">Aleks</option>
+                        <option value="waldemar">Waldemar</option>
+                        <option value="dawid">Dawid</option>
+                        <option value="piotrek">Piotrek</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="input-label" for="pin-input">PIN</label>
+                    <input type="password" id="pin-input" class="select-field" placeholder="Wpisz PIN" maxlength="4" inputmode="numeric" pattern="[0-9]*">
+                </div>
+
+                <div class="form-group">
+                    <label class="input-label" for="vehicle-select">Wybierz karetkę</label>
+                    <select id="vehicle-select" class="select-field">
+                        <option value="">-- Wybierz --</option>
+                        <option value="1">Karetka 1</option>
+                        <option value="2">Karetka 2</option>
+                        <option value="3">Karetka 3</option>
+                    </select>
+                </div>
+
+                <div id="login-error" style="color: #ff4444; text-align: center; font-size: 14px; display: none; margin-bottom: 12px;"></div>
+
+                <button id="start-work-btn" class="btn btn-primary btn-full" disabled>
+                    Rozpocznij pracę
+                </button>
+            </div>
+
+            <!-- Footer -->
+            <div class="login-footer">
+                <p class="timestamp" id="current-time"></p>
+                <p class="text-tiny mt-xs">&copy; 2026 Life-Ratownictwo Medyczne i Pielęgniarstwo</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/pwa.js"></script>
+    <script src="js/login.js"></script>
+</body>
+
+</html>

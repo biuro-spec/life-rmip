@@ -1,0 +1,214 @@
+/* Orders List Screen Styles */
+.orders-screen {
+    min-height: 100vh;
+    background: var(--gray-100);
+}
+
+.top-bar {
+    background: var(--life-red-primary);
+    color: var(--white);
+    padding: var(--space-sm) var(--space-md);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow-md);
+}
+
+.top-bar-left {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.top-bar-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    background: var(--white);
+    padding: 4px;
+}
+
+.worker-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.worker-name {
+    font-weight: var(--weight-bold);
+    font-size: var(--text-base);
+}
+
+.vehicle-name {
+    font-size: var(--text-small);
+    opacity: 0.9;
+}
+
+.logout-btn {
+    background: transparent;
+    border: 2px solid var(--white);
+    color: var(--white);
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    font-size: var(--text-small);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.logout-btn:hover {
+    background: var(--white);
+    color: var(--life-red-primary);
+}
+
+/* Date selector */
+.date-selector {
+    background: var(--white);
+    padding: var(--space-md);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--gray-300);
+}
+
+.date-arrow {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--gray-700);
+    cursor: pointer;
+    padding: 8px;
+    transition: color 0.3s;
+}
+
+.date-arrow:hover {
+    color: var(--life-red-primary);
+}
+
+.current-date {
+    font-weight: var(--weight-bold);
+    font-size: var(--text-h3);
+    color: var(--gray-900);
+}
+
+/* Orders list */
+.orders-list {
+    padding: var(--space-md);
+}
+
+.order-card {
+    background: var(--white);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    margin-bottom: var(--space-sm);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s;
+    cursor: pointer;
+    border-left: 4px solid transparent;
+}
+
+.order-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.order-card.status-available {
+    border-left-color: var(--status-available);
+}
+
+.order-card.status-in-transit {
+    border-left-color: var(--status-in-transit);
+}
+
+.order-card.status-scheduled {
+    border-left-color: var(--status-scheduled);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-xs);
+}
+
+.order-time {
+    font-size: var(--text-h3);
+    font-weight: var(--weight-bold);
+    color: var(--life-red-primary);
+}
+
+.order-status {
+    display: flex;
+    align-items: center;
+    font-size: var(--text-small);
+    color: var(--gray-700);
+}
+
+.order-patient {
+    font-size: var(--text-base);
+    font-weight: var(--weight-medium);
+    color: var(--gray-900);
+    margin-bottom: var(--space-xs);
+}
+
+.order-route {
+    font-size: var(--text-small);
+    color: var(--gray-600);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.route-arrow {
+    color: var(--life-red-primary);
+    font-weight: var(--weight-bold);
+}
+
+/* Empty state */
+.empty-state {
+    text-align: center;
+    padding: var(--space-xl);
+}
+
+.empty-icon {
+    font-size: 64px;
+    margin-bottom: var(--space-md);
+}
+
+.empty-title {
+    font-size: var(--text-h3);
+    color: var(--gray-700);
+    margin-bottom: var(--space-xs);
+}
+
+.empty-text {
+    color: var(--gray-500);
+    font-size: var(--text-small);
+}
+
+/* Refresh button */
+.refresh-btn {
+    position: fixed;
+    bottom: var(--space-md);
+    right: var(--space-md);
+    background: var(--success);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-full);
+    padding: 16px 24px;
+    font-size: var(--text-base);
+    font-weight: var(--weight-medium);
+    box-shadow: var(--shadow-lg);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    transition: all 0.3s;
+}
+
+.refresh-btn:hover {
+    background: #388E3C;
+    transform: scale(1.05);
+}
+
+.refresh-icon {
+    font-size: 20px;
+}

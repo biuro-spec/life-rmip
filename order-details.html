@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <title>Szczegóły Zlecenia - Life RMiP</title>
+    <meta name="theme-color" content="#B71C1C">
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="assets/logo.png">
+
+    <!-- Scripts & Styles -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#b51c1c",
+                        "primary-dark": "#901616",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#201212",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#2d1a1a",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px" },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(181, 28, 28, 0.1)',
+                        'inner-soft': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
+                    }
+                },
+            },
+        }
+    </script>
+
+    <style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+            overscroll-behavior-y: none;
+            min-height: max(884px, 100dvh);
+        }
+
+        .ios-statusbar-spacer {
+            height: env(safe-area-inset-top, 20px);
+            background-color: #b51c1c;
+        }
+
+        .safe-bottom {
+            padding-bottom: env(safe-area-inset-bottom, 20px);
+        }
+
+        /* Utility classes for hiding/showing elements */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-100 min-h-screen flex flex-col antialiased">
+    <!-- Status Bar Spacer for iOS -->
+    <div class="ios-statusbar-spacer fixed top-0 left-0 right-0 z-50"></div>
+
+    <!-- Header -->
+    <header
+        class="bg-primary text-white pt-[calc(env(safe-area-inset-top,20px)+0.5rem)] pb-4 px-4 shadow-lg sticky top-0 z-40">
+        <div class="flex items-center justify-between">
+            <button id="back-btn" class="p-2 -ml-2 rounded-full hover:bg-white/10 active:bg-white/20 transition-colors">
+                <span class="material-icons-round text-2xl">arrow_back</span>
+            </button>
+            <h1 class="text-lg font-semibold tracking-wide">Szczegóły zlecenia</h1>
+            <span id="order-time" class="font-medium opacity-90 text-sm">-</span>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 overflow-y-auto px-4 py-6 space-y-6 pb-40">
+
+        <!-- Patient Card -->
+        <div class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-soft p-5 relative overflow-hidden">
+            <!-- Decorative Accent -->
+            <div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+            <div class="flex justify-between items-start">
+                <div class="space-y-1">
+                    <p class="text-xs font-bold text-primary dark:text-red-400 uppercase tracking-wider mb-1">Pacjent
+                    </p>
+                    <h2 id="patient-name" class="text-2xl font-bold text-gray-900 dark:text-white">-</h2>
+                    <div class="flex items-center text-gray-500 dark:text-gray-400 text-sm space-x-2">
+                        <span class="material-icons-round text-base">badge</span>
+                        <span id="patient-pesel">PESEL: -</span>
+                    </div>
+                </div>
+                <!-- Call Button -->
+                <a id="patient-phone-btn" href="#"
+                    class="flex items-center justify-center w-12 h-12 bg-green-50 text-green-600 dark:bg-green-900/20 dark:text-green-400 rounded-full shadow-sm hover:bg-green-100 dark:hover:bg-green-900/30 active:scale-95 transition-all ring-1 ring-green-100 dark:ring-green-800">
+                    <span class="material-icons-round">call</span>
+                </a>
+            </div>
+            <hr class="border-gray-100 dark:border-gray-800 my-4" />
+
+            <!-- Transport Type Badge -->
+            <div class="flex items-center space-x-3">
+                <div id="patient-type-badge"
+                    class="inline-flex items-center px-3 py-1.5 rounded-lg bg-red-50 dark:bg-red-900/20 text-primary dark:text-red-300 font-medium text-sm border border-red-100 dark:border-red-900/50">
+                    <span id="patient-type-icon" class="material-icons-round text-lg mr-2">accessible</span>
+                    <span id="patient-type-label">Siedzący</span>
+                </div>
+                <div id="medical-notes-preview" class="text-xs text-gray-400 dark:text-gray-500 hidden">
+                    Uwagi medyczne
+                </div>
+            </div>
+        </div>
+
+        <!-- Medical Notes (Full) -->
+        <div id="medical-notes-section"
+            class="bg-yellow-50 dark:bg-yellow-900/10 rounded-xl p-4 border-l-4 border-yellow-400 hidden">
+            <div class="flex items-start space-x-3">
+                <span class="material-icons-round text-yellow-600 dark:text-yellow-500 mt-0.5">medical_services</span>
+                <div>
+                    <h3 class="text-sm font-bold text-yellow-800 dark:text-yellow-400">Uwagi medyczne</h3>
+                    <p id="medical-notes-text" class="text-sm text-yellow-700 dark:text-yellow-300 mt-1">-</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Route Card -->
+        <div class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-soft p-5">
+            <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-4">Trasa przejazdu
+            </p>
+            <div class="relative pl-2">
+                <!-- Connector Line -->
+                <div
+                    class="absolute top-3 bottom-8 left-[19px] w-0.5 bg-gray-200 dark:bg-gray-700 border-l-2 border-dotted border-gray-300 dark:border-gray-600">
+                </div>
+
+                <!-- From -->
+                <div class="flex items-start space-x-4 mb-6 relative">
+                    <div class="flex-shrink-0 z-10 bg-surface-light dark:bg-surface-dark py-1">
+                        <div
+                            class="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400 ring-2 ring-white dark:ring-surface-dark">
+                            <span class="material-icons-round text-lg">home</span>
+                        </div>
+                    </div>
+                    <div class="pt-1">
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mb-0.5">Miejsce odbioru</p>
+                        <p id="route-from" class="text-base font-semibold text-gray-900 dark:text-white">-</p>
+                    </div>
+                </div>
+
+                <!-- To -->
+                <div class="flex items-start space-x-4 relative">
+                    <div class="flex-shrink-0 z-10 bg-surface-light dark:bg-surface-dark py-1">
+                        <div
+                            class="w-8 h-8 rounded-full bg-red-50 dark:bg-red-900/20 flex items-center justify-center text-primary dark:text-red-400 ring-2 ring-white dark:ring-surface-dark">
+                            <span class="material-icons-round text-lg">local_hospital</span>
+                        </div>
+                    </div>
+                    <div class="pt-1">
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mb-0.5">Miejsce docelowe</p>
+                        <p id="route-to" class="text-base font-semibold text-gray-900 dark:text-white">-</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Map Preview (Visual Aid) -->
+            <div id="map-preview" class="mt-5 h-24 w-full rounded-lg overflow-hidden relative bg-gray-200">
+                <!-- Using a static map placeholder or color div -->
+                <div class="w-full h-full bg-gray-300 flex items-center justify-center text-gray-500">
+                    <span class="material-icons-round text-4xl opacity-20">map</span>
+                </div>
+                <div
+                    class="absolute inset-0 bg-gradient-to-r from-surface-light/80 to-transparent dark:from-surface-dark/80 flex items-center pl-4">
+                    <button id="btn-navigate"
+                        class="px-3 py-1.5 bg-white dark:bg-gray-800 rounded-md shadow-sm text-xs font-medium text-primary flex items-center space-x-1">
+                        <span class="material-icons-round text-sm">navigation</span>
+                        <span>Nawiguj</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Timeline -->
+        <div class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-soft p-5">
+            <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-4">Status Zlecenia
+            </p>
+            <div id="timeline-container" class="space-y-0">
+                <!-- Timeline items will be injected by JS or controlled via classes -->
+
+                <!-- Step 1: Available -->
+                <div id="timeline-step-available" class="flex items-center relative pb-6 group">
+                    <div class="absolute left-[11px] top-6 bottom-0 w-0.5 bg-gray-200 dark:bg-gray-700"></div>
+                    <div
+                        class="relative z-10 w-6 h-6 rounded-full border-2 border-gray-300 bg-white dark:bg-surface-dark mr-4 flex items-center justify-center">
+                        <!-- Icon/Dot here -->
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">Wolny / Dostępny</p>
+                        <p id="time-available" class="text-xs text-gray-400">-</p>
+                    </div>
+                </div>
+
+                <!-- Step 2: In Transit -->
+                <div id="timeline-step-transit" class="flex items-center relative pb-6 group">
+                    <div class="absolute left-[11px] top-6 bottom-0 w-0.5 bg-gray-200 dark:bg-gray-700"></div>
+                    <div
+                        class="relative z-10 w-6 h-6 rounded-full border-2 border-gray-300 bg-white dark:bg-surface-dark mr-4 flex items-center justify-center">
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">W trasie</p>
+                        <p id="time-transit" class="text-xs text-gray-400">-</p>
+                    </div>
+                </div>
+
+                <!-- Step 3: With Patient -->
+                <div id="timeline-step-patient" class="flex items-center relative group">
+                    <div
+                        class="relative z-10 w-6 h-6 rounded-full border-2 border-gray-300 bg-white dark:bg-surface-dark mr-4">
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">Z pacjentem</p>
+                        <p id="time-patient" class="text-xs text-gray-400">-</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="h-24"></div> <!-- Spacer for footer -->
+    </main>
+
+    <!-- Sticky Footer Actions -->
+    <div
+        class="fixed bottom-0 left-0 right-0 bg-white dark:bg-[#251515] border-t border-gray-100 dark:border-gray-800 p-4 safe-bottom shadow-[0_-4px_20px_-4px_rgba(0,0,0,0.1)] z-50">
+
+        <!-- Kilometers Input (Hidden by default) -->
+        <div id="km-input-container" class="mb-4 hidden">
+            <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 uppercase ml-1">Stan
+                licznika (km)</label>
+            <div class="relative rounded-lg shadow-inner-soft">
+                <input id="km-input"
+                    class="w-full bg-gray-50 dark:bg-black/20 border-0 text-gray-900 dark:text-white rounded-lg py-3 px-4 pl-12 focus:ring-2 focus:ring-primary focus:bg-white dark:focus:bg-black/30 transition-all font-medium placeholder:text-gray-400"
+                    placeholder="Wpisz kilometry..." type="number" />
+                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                    <span class="material-icons-round text-xl">speed</span>
+                </div>
+            </div>
+            <button id="km-save-btn"
+                class="mt-2 w-full bg-gray-800 text-white py-2 rounded-lg text-sm font-medium">Zapisz Kilometry</button>
+        </div>
+
+        <!-- Action Buttons Grid -->
+        <div id="action-buttons-grid" class="grid grid-cols-2 gap-3">
+            <!-- Primary Start Button -->
+            <button id="btn-start"
+                class="col-span-2 bg-primary hover:bg-primary-dark text-white font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-red-900/20 active:scale-[0.98] transition-all flex items-center justify-center space-x-2">
+                <span class="material-icons-round">directions_car</span>
+                <span>Wyruszam</span>
+            </button>
+
+            <!-- Secondary Actions (Hidden by default) -->
+            <button id="btn-arrived"
+                class="hidden col-span-2 bg-green-600 hover:bg-green-700 text-white font-semibold py-3.5 px-4 rounded-xl shadow-md active:scale-[0.98] transition-all flex items-center justify-center space-x-2">
+                <span class="material-icons-round">person_pin_circle</span>
+                <span>Jestem u pacjenta</span>
+            </button>
+
+            <button id="btn-complete"
+                class="hidden col-span-2 bg-gray-800 text-white font-semibold py-3.5 px-4 rounded-xl shadow-md active:scale-[0.98] transition-all flex items-center justify-center space-x-2">
+                <span class="material-icons-round">flag</span>
+                <span>Zakończono</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Application Logic -->
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/pwa.js"></script>
+    <script src="js/order-details.js"></script>
+</body>
+
+</html>
