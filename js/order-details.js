@@ -88,6 +88,25 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         updateStatusUI();
+        loadStreetView();
+    }
+
+    // --- STREET VIEW ---
+    function loadStreetView() {
+        var address = order.to || order.from;
+        if (!address) return;
+
+        var svImg = document.getElementById('streetview-img');
+        if (svImg) {
+            var params = new URLSearchParams({
+                size: '600x300',
+                location: address,
+                fov: '90',
+                pitch: '10',
+                key: 'AIzaSyA0tTZTp2bZBb2cbbSBcnxEoPXERnfx1w8'
+            });
+            svImg.src = 'https://maps.googleapis.com/maps/api/streetview?' + params.toString();
+        }
     }
 
     // --- STATUS UI LOGIC (Tailwind Classes) ---

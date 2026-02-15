@@ -176,19 +176,21 @@
                 </div>
             </div>
 
-            <!-- Map Preview (Visual Aid) -->
-            <div id="map-preview" class="mt-5 h-24 w-full rounded-lg overflow-hidden relative bg-gray-200">
-                <!-- Using a static map placeholder or color div -->
-                <div class="w-full h-full bg-gray-300 flex items-center justify-center text-gray-500">
-                    <span class="material-icons-round text-4xl opacity-20">map</span>
+            <!-- Street View Preview -->
+            <div id="map-preview" class="mt-5 w-full rounded-xl overflow-hidden relative">
+                <img id="streetview-img" src="" alt="Podgląd lokalizacji"
+                    class="w-full h-36 object-cover bg-gray-200"
+                    onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');" />
+                <div class="hidden w-full h-36 bg-gray-200 flex items-center justify-center text-gray-400">
+                    <span class="material-icons-round text-4xl opacity-30">location_off</span>
                 </div>
-                <div
-                    class="absolute inset-0 bg-gradient-to-r from-surface-light/80 to-transparent dark:from-surface-dark/80 flex items-center pl-4">
+                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3 flex items-end justify-between">
                     <button id="btn-navigate"
-                        class="px-3 py-1.5 bg-white dark:bg-gray-800 rounded-md shadow-sm text-xs font-medium text-primary flex items-center space-x-1">
+                        class="px-3 py-1.5 bg-white/95 backdrop-blur rounded-lg shadow-md text-xs font-bold text-primary flex items-center space-x-1.5 active:scale-95 transition-transform">
                         <span class="material-icons-round text-sm">navigation</span>
                         <span>Nawiguj</span>
                     </button>
+                    <span class="text-white/70 text-[10px]">Street View</span>
                 </div>
             </div>
         </div>
