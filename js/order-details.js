@@ -89,6 +89,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         updateStatusUI();
         loadStreetView();
+        loadETAPrediction(); // AI: Widget ETA
     }
 
     // --- STREET VIEW ---
@@ -98,12 +99,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         var svImg = document.getElementById('streetview-img');
         if (svImg) {
+            // UWAGA BEZPIECZEŃSTWO: Klucz API powinien być konfigurowany jako zmienna środowiskowa
+            // lub przekazywany z backendu. W produkcji zabezpiecz klucz ograniczeniami HTTP Referrer
+            // w Google Cloud Console: https://console.cloud.google.com/apis/credentials
             var params = new URLSearchParams({
                 size: '600x300',
                 location: address,
                 fov: '90',
                 pitch: '10',
-                key: 'AIzaSyA0tTZTp2bZBb2cbbSBcnxEoPXERnfx1w8'
+                key: 'AIzaSyA0tTZTp2bZBb2cbbSBcnxEoPXERnfx1w8' // TODO: Przenieść do zmiennych środowiskowych
             });
             svImg.src = 'https://maps.googleapis.com/maps/api/streetview?' + params.toString();
         }
@@ -270,6 +274,129 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
     });
+
+    // ============================================================
+    // AI: WIDGET ETA (Predykcja czasu dojazdu)
+    // ============================================================
+
+    /**
+     * Ładuje predykcję ETA dla zlecenia
+     */
+    async function loadETAPrediction() {
+        // Wyświetl widget tylko dla statusów: available, scheduled, in_transit
+        if (order.status === 'with_patient' || order.status === 'completed') {
+            return; // ETA nieaktualne po dotarciu
+        }
+
+        try {
+            const result = await apiGet({
+                action: 'predictETA',
+                orderId: order.id
+            });
+
+            if (result && result.success) {
+                displayETAWidget(result);
+            }
+        } catch (error) {
+            console.log('ETA prediction error:', error);
+        }
+    }
+
+    /**
+     * Wyświetla widget ETA na ekranie
+     */
+    function displayETAWidget(etaData) {
+        // Znajdź kontener na ETA (możemy dodać dynamicznie przed timeline)
+        var timelineContainer = document.querySelector('.timeline-container');
+        if (!timelineContainer) return;
+
+        // Sprawdź czy widget już istnieje
+        var existingWidget = document.getElementById('eta-widget');
+        if (existingWidget) {
+            existingWidget.remove();
+        }
+
+        // Utwórz widget ETA
+        var widget = document.createElement('div');
+        widget.id = 'eta-widget';
+        widget.className = 'eta-widget';
+
+        // Ikona zaufania
+        var confidenceIcon = 'schedule';
+        var confidenceColor = '#4caf50'; // green
+        if (etaData.confidence === 'medium') {
+            confidenceIcon = 'schedule';
+            confidenceColor = '#ff9800'; // orange
+        } else if (etaData.confidence === 'low') {
+            confidenceIcon = 'warning';
+            confidenceColor = '#f44336'; // red
+        }
+
+        // Ruch drogowy
+        var trafficBadge = '';
+        if (etaData.trafficImpact > 0) {
+            var trafficColor = etaData.trafficImpact > 20 ? '#f44336' : '#ff9800';
+            trafficBadge = `
+                <div style="display: inline-flex; align-items: center; background: ${trafficColor}20; color: ${trafficColor}; padding: 4px 8px; border-radius: 4px; font-size: 12px; margin-left: 8px;">
+                    <span class="material-icons-round" style="font-size: 14px; margin-right: 4px;">traffic</span>
+                    +${etaData.trafficImpact}%
+                </div>
+            `;
+        }
+
+        widget.innerHTML = `
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 16px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-bottom: 20px;">
+                <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                    <span class="material-icons-round" style="font-size: 24px; margin-right: 8px;">navigation</span>
+                    <h3 style="margin: 0; font-size: 16px; font-weight: 600;">Przewidywany czas dojazdu</h3>
+                </div>
+                <div style="display: flex; align-items: baseline; margin-bottom: 8px;">
+                    <div style="font-size: 36px; font-weight: 700; margin-right: 8px;">${etaData.durationWithTrafficMinutes}</div>
+                    <div style="font-size: 18px; opacity: 0.9;">minut</div>
+                    ${trafficBadge}
+                </div>
+                <div style="font-size: 14px; opacity: 0.85; margin-bottom: 12px;">
+                    Przewidywany przyjazd: <strong>${formatETATime(etaData.eta)}</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 13px; opacity: 0.8;">
+                    <div>
+                        <span class="material-icons-round" style="vertical-align: middle; font-size: 16px;">straighten</span>
+                        ${etaData.distanceKm} km
+                    </div>
+                    <div style="display: flex; align-items: center;">
+                        <span class="material-icons-round" style="font-size: 16px; margin-right: 4px; color: ${confidenceColor};">${confidenceIcon}</span>
+                        ${getConfidenceLabel(etaData.confidence)}
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Wstaw przed timeline
+        timelineContainer.parentNode.insertBefore(widget, timelineContainer);
+    }
+
+    /**
+     * Formatuje czas ETA
+     */
+    function formatETATime(etaStr) {
+        if (!etaStr) return '-';
+        try {
+            var date = new Date(etaStr);
+            return date.toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' });
+        } catch (e) {
+            return etaStr;
+        }
+    }
+
+    /**
+     * Zwraca label zaufania
+     */
+    function getConfidenceLabel(confidence) {
+        if (confidence === 'high') return 'Wysoka dokładność';
+        if (confidence === 'medium') return 'Średnia dokładność';
+        if (confidence === 'low') return 'Niska dokładność';
+        return 'Szacunek';
+    }
 
     init();
 });

@@ -3,8 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>Moje Zlecenia - Life RMiP</title>
     <meta name="theme-color" content="#ffffff">
 
@@ -12,8 +14,9 @@
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="assets/logo.png">
 
-    <!-- Fonts -->
+    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/orders.css">
@@ -21,6 +24,11 @@
 </head>
 
 <body>
+    <!-- Pull to refresh indicator -->
+    <div class="pull-indicator" id="pull-indicator">
+        <span class="material-icons-round">refresh</span>
+    </div>
+
     <div class="container">
         <div class="orders-screen">
             <!-- Top bar -->
@@ -37,10 +45,20 @@
 
             <!-- Date selector -->
             <div class="date-selector">
-                <button class="date-arrow" id="prev-day">&lt;</button>
-                <div class="current-date" id="current-date">08.02.2026</div>
-                <button class="date-arrow" id="next-day">&gt;</button>
+                <button class="date-arrow" id="prev-day">
+                    <span class="material-icons-round">chevron_left</span>
+                </button>
+                <div class="date-center">
+                    <div class="current-date" id="current-date">15.02.2026</div>
+                    <div class="current-day-name" id="current-day-name">SOBOTA</div>
+                </div>
+                <button class="date-arrow" id="next-day">
+                    <span class="material-icons-round">chevron_right</span>
+                </button>
             </div>
+
+            <!-- Status filter pills -->
+            <div class="status-filters" id="status-filters"></div>
 
             <!-- Orders list -->
             <div class="orders-list" id="orders-list">
@@ -49,13 +67,12 @@
 
             <!-- Refresh button -->
             <button class="refresh-btn" id="refresh-btn">
-                <span class="refresh-icon">🔄</span>
-                Odśwież
+                <span class="material-icons-round">refresh</span>
+                <span>Odśwież</span>
             </button>
         </div>
     </div>
 
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <script src="js/utils.js"></script>
     <script src="js/api.js"></script>
     <script src="js/pwa.js"></script>

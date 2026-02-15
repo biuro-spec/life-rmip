@@ -1,10 +1,13 @@
-/* Login Screen Styles - Stitch Design */
+/* Login Screen Styles - Stitch Design v2 */
 .login-screen {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-height: 100vh;
+  min-height: 100dvh;
   padding: var(--space-lg) var(--space-md);
+  padding-top: calc(env(safe-area-inset-top, 0px) + var(--space-lg));
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + var(--space-md));
   background: var(--gray-50);
 }
 
@@ -42,6 +45,30 @@
   padding: var(--space-lg);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
+}
+
+.login-form .btn-primary {
+  padding: 16px;
+  border-radius: var(--radius-md);
+  font-size: var(--text-base);
+  font-weight: var(--weight-bold);
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.15s;
+}
+
+.login-form .btn-primary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.login-form .btn-primary:disabled {
+  background: var(--gray-300);
+  color: var(--gray-500);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.login-form .select-field {
+  -webkit-tap-highlight-color: transparent;
 }
 
 .form-group {

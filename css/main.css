@@ -71,6 +71,8 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none;
 }
 
 /* Container */
@@ -78,6 +80,7 @@ body {
   max-width: 428px;
   margin: 0 auto;
   min-height: 100vh;
+  min-height: 100dvh;
   background: var(--white);
 }
 
