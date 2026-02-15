@@ -33,7 +33,7 @@
   --space-xl: 48px;
   
   /* Typography */
-  --font-primary: 'Roboto', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --text-h1: 32px;
   --text-h2: 24px;
   --text-h3: 20px;
