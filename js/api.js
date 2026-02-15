@@ -90,10 +90,13 @@ async function apiPost(body) {
   if (API_MODE === 'mock') return null;
 
   try {
+    // Content-Type: text/plain unika CORS preflight (OPTIONS)
+    // GAS i tak parsuje body z e.postData.contents
     const response = await fetch(API_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(body),
+      redirect: 'follow'
     });
     const data = await response.json();
     if (!data.success) {

@@ -224,9 +224,10 @@ const pwaInstall = (() => {
 
   function dismissBanner() {
     if (installBanner) {
-      installBanner.style.animation = 'toastOut 0.3s ease-in forwards';
-      setTimeout(() => installBanner.remove(), 300);
+      const banner = installBanner;
       installBanner = null;
+      banner.style.animation = 'toastOut 0.3s ease-in forwards';
+      setTimeout(() => banner.remove(), 300);
     }
   }
 
