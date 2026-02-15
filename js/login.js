@@ -25,6 +25,35 @@ document.addEventListener('DOMContentLoaded', () => {
     updateTimestamp();
     setInterval(updateTimestamp, 1000);
 
+    // Dynamic workers list loading
+    async function loadWorkersForLogin() {
+        try {
+            const workers = await getWorkersListAPI();
+            if (workers && workers.length) {
+                // Cache in localStorage for offline fallback
+                storage.set('workersListCache', workers);
+                populateWorkerSelect(workers);
+            }
+        } catch (e) {
+            // Fallback: load from localStorage cache
+            const cached = storage.get('workersListCache');
+            if (cached) populateWorkerSelect(cached);
+        }
+    }
+
+    function populateWorkerSelect(workers) {
+        // Keep first placeholder option
+        workerSelect.innerHTML = '<option value="">-- Wybierz --</option>';
+        workers.forEach(function(w) {
+            var opt = document.createElement('option');
+            opt.value = w.login || w.name.toLowerCase();
+            opt.textContent = w.name;
+            workerSelect.appendChild(opt);
+        });
+    }
+
+    loadWorkersForLogin();
+
     // PIN boxes logic
     function collectPin() {
         let pin = '';

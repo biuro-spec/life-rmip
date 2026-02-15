@@ -233,6 +233,24 @@ async function fetchGPSKilometers(orderId) {
 }
 
 /**
+ * Pobiera listę pracowników do logowania
+ */
+async function getWorkersListAPI() {
+  if (API_MODE === 'api') {
+    const result = await apiGet({ action: 'getWorkersList' });
+    if (result) return result;
+  }
+  // Mock fallback
+  return [
+    { name: 'Krzysztof', login: 'krzysztof' },
+    { name: 'Aleks', login: 'aleks' },
+    { name: 'Waldemar', login: 'waldemar' },
+    { name: 'Dawid', login: 'dawid' },
+    { name: 'Piotrek', login: 'piotrek' }
+  ];
+}
+
+/**
  * Logowanie pracownika przez API
  */
 async function loginWorkerAPI(login, pin, vehicle) {
