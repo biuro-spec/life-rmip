@@ -4,14 +4,16 @@
  * Cache-first dla statycznych zasobów, network-first dla API
  */
 
-const CACHE_NAME = 'life-rmip-v9';
+const CACHE_NAME = 'life-rmip-v10';
 
 const STATIC_ASSETS = [
   './',
   './index.html',
   './orders.html',
   './order-details.html',
+  './availability.html',
   './css/main.css',
+  './css/availability.css',
   './css/login.css',
   './css/orders.css',
   './js/utils.js',
@@ -20,6 +22,7 @@ const STATIC_ASSETS = [
   './js/login.js',
   './js/orders.js',
   './js/order-details.js',
+  './js/availability.js',
   './assets/logo.png',
   './assets/icon.svg',
   './manifest.json'

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Moja dostepnosc - Life RMiP</title>
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="assets/logo.png">
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/availability.css">
+    <link rel="icon" type="image/png" href="assets/logo.png">
+</head>
+
+<body>
+    <div class="container">
+        <div class="availability-screen">
+            <!-- Top bar -->
+            <div class="top-bar">
+                <div class="top-bar-left">
+                    <a href="orders.html" class="back-link">
+                        <span class="material-icons-round">arrow_back</span>
+                    </a>
+                    <div class="worker-info">
+                        <span class="worker-name" id="worker-name">-</span>
+                        <span class="page-title">Moja dostepnosc</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Month selector -->
+            <div class="month-selector">
+                <button class="month-arrow" id="prev-month">
+                    <span class="material-icons-round">chevron_left</span>
+                </button>
+                <div class="month-center">
+                    <div class="current-month" id="current-month">Luty 2026</div>
+                </div>
+                <button class="month-arrow" id="next-month">
+                    <span class="material-icons-round">chevron_right</span>
+                </button>
+            </div>
+
+            <!-- Legend -->
+            <div class="calendar-legend">
+                <div class="legend-item">
+                    <span class="legend-dot available"></span>
+                    <span>Dostepny</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot today"></span>
+                    <span>Dzisiaj</span>
+                </div>
+            </div>
+
+            <!-- Calendar grid -->
+            <div class="calendar-container">
+                <div class="calendar-weekdays">
+                    <span>Pn</span><span>Wt</span><span>Sr</span><span>Cz</span><span>Pt</span><span>Sb</span><span>Nd</span>
+                </div>
+                <div class="calendar-grid" id="calendar-grid">
+                    <!-- Days will be inserted by JS -->
+                </div>
+            </div>
+
+            <!-- Notes section -->
+            <div class="notes-section">
+                <label class="input-label" for="availability-notes">Uwagi (opcjonalne)</label>
+                <input type="text" class="input-field" id="availability-notes" placeholder="np. od 14:00, tylko rano...">
+            </div>
+
+            <!-- Save button -->
+            <div class="save-section">
+                <div class="selected-count" id="selected-count">Zaznaczonych dni: 0</div>
+                <button class="btn btn-primary btn-full save-btn" id="save-btn">
+                    <span class="material-icons-round">save</span>
+                    <span>Zapisz dostepnosc</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/pwa.js"></script>
+    <script src="js/availability.js"></script>
+</body>
+
+</html>

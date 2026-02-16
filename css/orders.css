@@ -56,6 +56,28 @@
     line-height: 1.3;
 }
 
+.availability-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    color: var(--gray-700);
+    text-decoration: none;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.availability-link:hover {
+    background: var(--gray-100);
+    color: var(--life-red-primary);
+}
+
+.availability-link:active {
+    transform: scale(0.92);
+}
+
 .logout-btn {
     background: transparent;
     border: 1px solid var(--gray-300);
