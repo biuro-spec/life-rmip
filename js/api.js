@@ -18,6 +18,24 @@ const API_URL = 'https://script.google.com/macros/s/AKfycbwV78BCyi1d3Wdp3hwCU9v5
 const API_MODE = API_URL ? 'api' : 'mock';
 
 // ============================================================
+// TOKEN SESJI
+// ============================================================
+
+function getAuthToken() {
+  return sessionStorage.getItem('authToken') || '';
+}
+
+function setAuthToken(token) {
+  if (token) {
+    sessionStorage.setItem('authToken', token);
+  }
+}
+
+function clearAuthToken() {
+  sessionStorage.removeItem('authToken');
+}
+
+// ============================================================
 // MAPOWANIE STATUSÓW
 // Frontend (angielskie) <-> Backend (polskie)
 // ============================================================
@@ -63,6 +81,10 @@ async function apiGet(params) {
   if (API_MODE === 'mock') return null;
 
   const url = new URL(API_URL);
+  // Dołącz token sesji
+  var token = getAuthToken();
+  if (token) params.token = token;
+
   Object.keys(params).forEach(key => {
     if (params[key] !== undefined && params[key] !== null) {
       url.searchParams.append(key, params[key]);
@@ -74,6 +96,11 @@ async function apiGet(params) {
     const data = await response.json();
     if (!data.success) {
       console.error('API Error (GET):', data.message);
+      if (data.message && data.message.indexOf('autoryzacji') > -1) {
+        clearAuthToken();
+        session.logout();
+        location.reload();
+      }
       return null;
     }
     return data.data;
@@ -90,6 +117,12 @@ async function apiPost(body) {
   if (API_MODE === 'mock') return null;
 
   try {
+    // Dołącz token sesji (oprócz loginów)
+    var token = getAuthToken();
+    if (token && body.action !== 'loginWorker') {
+      body.token = token;
+    }
+
     // Content-Type: text/plain unika CORS preflight (OPTIONS)
     // GAS i tak parsuje body z e.postData.contents
     const response = await fetch(API_URL, {
@@ -101,6 +134,11 @@ async function apiPost(body) {
     const data = await response.json();
     if (!data.success) {
       console.error('API Error (POST):', data.message);
+      if (data.message && data.message.indexOf('autoryzacji') > -1) {
+        clearAuthToken();
+        session.logout();
+        location.reload();
+      }
       return null;
     }
     return data.data;
@@ -237,7 +275,8 @@ async function fetchGPSKilometers(orderId) {
  */
 async function getWorkersListAPI() {
   if (API_MODE === 'api') {
-    const result = await apiGet({ action: 'getWorkersList' });
+    // Publiczny endpoint - nie wymaga tokena (zwraca tylko name + login)
+    const result = await apiGet({ action: 'getWorkersForLogin' });
     if (result) return result;
   }
   // Mock fallback
@@ -263,6 +302,8 @@ async function loginWorkerAPI(login, pin, vehicle) {
     });
 
     if (result) {
+      // Zapisz token sesji
+      if (result.token) setAuthToken(result.token);
       return {
         success: true,
         data: {
@@ -298,6 +339,7 @@ async function logoutWorkerAPI() {
       });
     }
   }
+  clearAuthToken();
 }
 
 // ============================================================
